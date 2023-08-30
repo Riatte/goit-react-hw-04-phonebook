@@ -61,7 +61,6 @@ export const App = () => {
     <section>
       <div>
         <h1>Phonebook</h1>
-
         <ContactForm createContact={createContact} />
         <h2>Contacts</h2>
         <ContactFilter handleChange={handleChange} />
