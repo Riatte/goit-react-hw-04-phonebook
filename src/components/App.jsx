@@ -13,7 +13,7 @@ const initialContacts = [
 ];
 
 const getInitialContacts = () => {
-  const savedContacts = localStorage.getItem('contacts');
+  const savedContacts = localStorage.getItem('contact');
   if (savedContacts !== null) {
     return JSON.parse(savedContacts);
   }
@@ -28,21 +28,19 @@ export const App = () => {
     localStorage.setItem('contact', JSON.stringify(contacts));
   }, [contacts]);
 
-  const createContact = data => {
-    setContacts(prevState => {
-      if (
-        contacts.find(
-          contact => contact.name.toLowerCase() === data.name.toLowerCase()
-        )
-      ) {
-        alert(`${data.name} is already in contacts`);
-      } else {
-        setContacts([
-          { id: nanoid(), name: data.name, number: data.number },
-          ...prevState,
-        ]);
-      }
-    });
+  const createContact = ({ name, number }) => {
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} is already in contacts`);
+    } else {
+      setContacts(prevState => [
+        { id: nanoid(), name: name, number: number },
+        ...prevState,
+      ]);
+    }
   };
 
   const deleteUser = id => {
@@ -53,9 +51,9 @@ export const App = () => {
     setFilter(target.value.toLowerCase());
   };
 
-  const filteredContacts = filter
-    ? contacts.filter(contact => contact.name.toLowerCase().includes(filter))
-    : contacts;
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter)
+  );
 
   return (
     <section>
